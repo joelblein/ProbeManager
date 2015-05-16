@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanagerapp;
+package com.job.probemanager;
 
 import java.util.EventObject;
 
@@ -12,9 +12,12 @@ import java.util.EventObject;
  * @author joel
  */
 public class ProbeEvent extends EventObject {
-
-    public ProbeEvent(Object source) {
-        super(source);
-    }
     
+    public ProbeEvent(String probeId) {
+        super(probeId);
+    }
+
+    String getProbeId() {
+        return (String) source;
+    }
 }

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanagerapp;
+package com.job.probemanager;
 
 import java.io.*;
 import java.util.*;
-import static com.job.probemanagerapp.ProbeManager.PROBE_FILE_PREFIX;
+import static com.job.probemanager.ProbeManager.PROBE_FILE_PREFIX;
 
 public class ProbeManager {
     // This directory created by 1-wire kernel modules
@@ -50,7 +50,7 @@ public class ProbeManager {
         // USE PROBE CONFIG CLASS (RESSOURCE FILE ?)
         foundProbes.stream().forEach((probe) -> {
             try {
-                fireProbeTemperatureChanged(probe, readProbe(probe));
+                fireProbeRead(probe, readProbe(probe));
             } catch (Throwable t) {
                 fireProbeReadingFailed(probe, t);
             }
@@ -75,16 +75,20 @@ public class ProbeManager {
     } 
 
     private void fireProbeConnected(String probeId) {
-       probeListeners.forEach((pl) -> {pl.probeConnected(probeId);});
+       ProbeConnectionEvent e = new ProbeConnectionEvent(probeId);
+       probeListeners.forEach((pl) -> {pl.probeConnected(e);});
     }
     private void fireProbeDisonnected(String probeId) {
-       probeListeners.forEach((pl) -> {pl.probeDisonnected(probeId);});
+       ProbeDisconnectionEvent e = new ProbeDisconnectionEvent(probeId);
+       probeListeners.forEach((pl) -> {pl.probeDisonnected(e);});
     }
-    private void fireProbeTemperatureChanged(String probeId, float newTemperature) {
-       probeListeners.forEach((pl) -> {pl.probeTemberatureRead(probeId,  newTemperature);});
+    private void fireProbeRead(String probeId, float newTemperature) {
+       ProbeReadEvent e = new ProbeReadEvent(probeId, newTemperature);
+       probeListeners.forEach((pl) -> {pl.probeRead(e);});
     }
     private void fireProbeReadingFailed(String probeId, Throwable t) {
-       probeListeners.forEach((pl) -> {pl.probeReadingFailed(probeId, t);});
+       ProbeFailedEvent e = new ProbeFailedEvent(probeId, t);
+       probeListeners.forEach((pl) -> {pl.probeReadingFailed(e);});
     }
     
     public Collection<String> readProbeIds() throws ProbeException {
@@ -114,7 +118,6 @@ public class ProbeManager {
     }
 
     public float readProbe(String probeId) throws ProbeException {
-        ReleveTemperature rt = null;
         if(probeId!=null) {
             // Device data in w1_slave file
             String filePath = W1_DIR_PATH + "/" + PROBE_FILE_PREFIX+probeId+ "/w1_slave";
@@ -133,7 +136,6 @@ public class ProbeManager {
                                 float tempC = Float.parseFloat(tempString);
                                 // Divide by 1000 to get degrees Celsius
                                 tempC /= 1000;
-                                rt = new ReleveTemperature(new Date(), tempC);
                                 return tempC;
                             } catch(NumberFormatException nfe) {
                                 throw new ProbeException("No parsable temperature in String '"+tempString+"");
@@ -161,29 +163,4 @@ public class ProbeManager {
             System.out.println(p + " " + t);
         }
     } 
-}
-
-// This lter selects subdirs with name beginning with 28-
-// Kernel module gives each 1-wire temp sensor name starting 
-// with 28-
-class DirectoryFileFilter implements FileFilter
-{
-  @Override
-  public boolean accept(File file) {
-    String dir = file.getName();
-    String startOfName = dir.substring(0, 3);
-    return (file.isDirectory() && startOfName.equals(PROBE_FILE_PREFIX));
-  }
-}
-
-class ProbeException extends Exception {
-    ProbeException(String message) {
-        super(message);
-    }
-    ProbeException(Exception e) {
-        super(e);
-    }
-    ProbeException(String message, Exception e) {
-        super(message, e);
-    }
 }

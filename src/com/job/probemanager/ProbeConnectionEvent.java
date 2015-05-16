@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanagerapp;
+package com.job.probemanager;
 
 
 public class ProbeConnectionEvent extends ProbeEvent {
 
-    public ProbeConnectionEvent(Object source) {
-        super(source);
+    public ProbeConnectionEvent(String probeId) {
+        super(probeId);
     } 
     
+    @Override
+    public String toString() {
+        return "Probe "+source+" connected";
+    }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanagerapp;
+
 
 import java.io.*;
 
@@ -41,3 +41,16 @@ public class W1 {
     }
   } 
 }
+// This lter selects subdirs with name beginning with 28-
+// Kernel module gives each 1-wire temp sensor name starting 
+// with 28-
+class DirectoryFileFilter implements FileFilter
+{
+  @Override
+  public boolean accept(File file) {
+    String dir = file.getName();
+    String startOfName = dir.substring(0, 3);
+    return (file.isDirectory() && startOfName.equals("28-"));
+  }
+}
+

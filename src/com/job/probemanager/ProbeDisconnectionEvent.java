@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanagerapp;
+package com.job.probemanager;
 
 
 public class ProbeDisconnectionEvent extends ProbeConnectionEvent {
 
-    public ProbeDisconnectionEvent(Object source) {
-        super(source);
+    public ProbeDisconnectionEvent(String probeId) {
+        super(probeId);
     }
     
+    public String toString() {
+        return "Probe "+source+" diconnected";
+    }
 }
