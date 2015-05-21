@@ -5,21 +5,66 @@
  */
 package com.job.probemanager;
 
+import java.util.Date;
+import java.util.EventObject;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+
+@XmlRootElement
 public class ProbeReadEvent extends ProbeEvent {
     float temperature;
+    
+    public ProbeReadEvent() {
+        this(NO_PROBE_ID, Float.NaN, null);
+    }
+    
     public ProbeReadEvent(String  probeId, float temperature) {
-        super(probeId);
+        this(probeId, temperature, new Date());
+    }
+    
+    public ProbeReadEvent(String  probeId, float temperature, Date time) {
+        super(probeId, time);
         this.temperature  = temperature;
     }
     
+    @XmlElement
+    @Override
+    String getProbeId() {
+        return (String) source;
+    }
+    
+    private void setProbeId(String probeId) {
+        source = probeId;
+    }
+    
+    @XmlElement
+    @Override
+    Date getTime() {
+        return time;
+    }
+
+    protected void setTime(Date time) {
+        this.time = time;
+    }
+
+    @XmlElement
     public float getTemperature() {
         return temperature;
     }
     
+    protected void setTemperature(float temperature) {
+        this.temperature = temperature;
+    }
+    
     @Override
     public String toString() {
-        return "Probe  "+source+" read : "+temperature+"°C";
+        return "Probe  "+source+" read at "+time+" : "+temperature+"°C";
     }
 
+    public boolean equals(Object object) {
+        return super.equals(object)
+            && object instanceof ProbeReadEvent 
+                && ((ProbeReadEvent)object).getTemperature()==temperature;
+    }
 }

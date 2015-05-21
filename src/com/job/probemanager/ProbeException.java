@@ -19,4 +19,13 @@ public class ProbeException extends Exception {
     ProbeException(String message, Exception e) {
         super(message, e);
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        return o!=null
+                && o instanceof ProbeException
+                && ((ProbeException)o).getMessage()!=null
+                && ((ProbeException)o).getMessage().equals(getMessage());
+    }
+
 }

@@ -35,13 +35,13 @@ public class TemperatureApp {
             System.out.println("Hostname can not be resolved");
         }
         
+        ProbeMqttLogger mqttLogger = new ProbeMqttLogger(mqttBroketIP, hostname, new XmlEncoder());
         ProbeManager pm = ProbeManager.getInstance();
-        ProbeMQTTLogger mqttLogger = new ProbeMQTTLogger(mqttBroketIP, hostname);
         pm.addProbeListener(mqttLogger);
         pm.addProbeListener(new ProbeLogger());
-
+        
         try {
-            mqttLogger.start();
+            mqttLogger.start(); // se connecte au serveur mqtt
             Timer timer = new Timer("ProbeTimer");
             timer.schedule(new TimerTask() {
                 @Override
@@ -52,9 +52,15 @@ public class TemperatureApp {
                         System.out.println(e);
                     }
                 }
-            }, 1000, 5000);        
+            }, 1000, 60*1000);        
+        
+            while(true)  // Endors le thread principal (le timer prend la suite)
+                try {
+                    Thread.sleep(60*60*1000);
+                } catch(InterruptedException e) {
+                } 
         } finally {
-            mqttLogger.stop();
+            mqttLogger.stop(); // se délogue du serveur mqtt
         }
     }
 

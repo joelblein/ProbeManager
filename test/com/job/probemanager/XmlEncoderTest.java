@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.job.probemanager;
 
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,9 +17,9 @@ import static org.junit.Assert.*;
  *
  * @author joel
  */
-public class PahoTest {
+public class XmlEncoderTest {
     
-    public PahoTest() {
+    public XmlEncoderTest() {
     }
     
     @BeforeClass
@@ -36,9 +38,10 @@ public class PahoTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void hello() throws Exception {
+        ProbeEvent pe = new ProbeConnectionEvent("testId", new Date());
+        XmlEncoder encoder = new XmlEncoder();
+        assertEquals(pe, encoder.decode(encoder.encode(pe)));
+    }
 }
