@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
- class ProbeConnectionEvent extends ProbeEvent {
+public class ProbeConnectionEvent extends ProbeEvent {
 
     private ProbeConnectionEvent() {
         this(NO_PROBE_ID);

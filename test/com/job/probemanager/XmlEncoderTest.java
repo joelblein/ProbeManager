@@ -39,7 +39,7 @@ public class XmlEncoderTest {
     }
 
     @Test
-    public void hello() throws Exception {
+    public void testEncodeDecode() throws Exception {
         ProbeEvent pe = new ProbeConnectionEvent("testId", new Date());
         XmlEncoder encoder = new XmlEncoder();
         assertEquals(pe, encoder.decode(encoder.encode(pe)));

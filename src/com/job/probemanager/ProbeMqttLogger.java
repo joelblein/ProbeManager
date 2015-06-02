@@ -46,7 +46,9 @@ public class ProbeMqttLogger implements ProbeListener, MqttCallback {
             }    
         }
         return mqttClient;
-    }    private void sendToMQTTServer(ProbeEvent probeEvent) throws MqttException, JAXBException {
+    }
+    
+    private void sendToMQTTServer(ProbeEvent probeEvent) throws MqttException, JAXBException {
         mqttClient.publish("cafetiton/temperature", encoder.encode(probeEvent), 2, true);
     }
     
