@@ -3,8 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanager;
+package com.job.probeevent;
 
+import com.job.probeevent.ProbeConnectionEvent;
+import com.job.probeevent.ProbeFailedEvent;
+import com.job.probeevent.ProbeReadEvent;
+import com.job.probeevent.ProbeEvent;
+import com.job.probeevent.ProbeDisconnectionEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
@@ -22,11 +28,18 @@ public class ProbeEventsDataSet {
         @XmlElement(name="probeFailedEvent", type=ProbeFailedEvent.class)
     })
     
-    public List<ProbeEvent> getEvents() {
+    public synchronized void addEvent(ProbeEvent event) {
+       if(events==null) {
+           events = new ArrayList<>();
+       }
+       events.add(event);
+    }
+
+    public synchronized List<ProbeEvent> getEvents() {
        return events;
     }
 
-    public void setEvents(List<ProbeEvent> someEvents) {
+    public synchronized void setEvents(List<ProbeEvent> someEvents) {
         this.events = someEvents;
     }
 

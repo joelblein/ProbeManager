@@ -5,6 +5,12 @@
  */
 package com.job.probemanager;
 
+import com.job.probeevent.ProbeException;
+import com.job.probeevent.ProbeFailedEvent;
+import com.job.probeevent.ProbeDisconnectionEvent;
+import com.job.probeevent.ProbeConnectionEvent;
+import com.job.probeevent.ProbeEvent;
+import com.job.probeevent.ProbeReadEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import javax.swing.text.View;

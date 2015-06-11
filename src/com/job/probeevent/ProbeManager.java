@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanager;
+package com.job.probeevent;
 
+import com.job.probeevent.ProbeConnectionEvent;
+import com.job.probeevent.ProbeFailedEvent;
+import com.job.probeevent.ProbeEventListener;
+import com.job.probeevent.ProbeReadEvent;
+import com.job.probeevent.ProbeDisconnectionEvent;
 import java.io.*;
 import java.util.*;
-import static com.job.probemanager.ProbeManager.PROBE_FILE_PREFIX;
+import static com.job.probeevent.ProbeManager.PROBE_FILE_PREFIX;
 
 public class ProbeManager {
     // This directory created by 1-wire kernel modules
@@ -60,18 +65,18 @@ public class ProbeManager {
         return foundProbes;        
     }
     
-    private final Collection<ProbeListener> probeListeners = new ArrayList<>();
+    private final Collection<ProbeEventListener> probeListeners = new ArrayList<>();
 
-    public void addProbeListener(ProbeListener listener) {
+    public void addProbeListener(ProbeEventListener listener) {
         probeListeners.add(listener);
     }
  
-    public void removeProbeListener(ProbeListener listener) {
+    public void removeProbeListener(ProbeEventListener listener) {
         probeListeners.remove(listener);
     }
  
-    public ProbeListener[] getProbeListeners() {
-        return probeListeners.toArray(new ProbeListener[0]);
+    public ProbeEventListener[] getProbeListeners() {
+        return probeListeners.toArray(new ProbeEventListener[0]);
     } 
 
     private void fireProbeConnected(String probeId) {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanager;
+package com.job.probeevent;
 
 import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -36,7 +36,7 @@ public class ProbeFailedEvent extends ProbeEvent {
     
     @XmlElement
     @Override
-    String getProbeId() {
+    public String getProbeId() {
         return (String) source;
     }
     
@@ -46,7 +46,7 @@ public class ProbeFailedEvent extends ProbeEvent {
     
     @XmlElement
     @Override
-    Date getTime() {
+    public Date getTime() {
         return time;
     }
 
@@ -63,6 +63,11 @@ public class ProbeFailedEvent extends ProbeEvent {
         this.t = t;
     }
     
+    @Override
+    public void fire(ProbeEventListener listener) {
+        listener.probeReadingFailed(this);
+    }
+
     public String toString() {
         return "Probe "+source+" reading failed at "+time+" : "+t;
     }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanager;
+package com.job.probeevent;
 
 import java.util.Date;
 import java.util.EventObject;
@@ -30,7 +30,7 @@ public class ProbeReadEvent extends ProbeEvent {
     
     @XmlElement
     @Override
-    String getProbeId() {
+    public String getProbeId() {
         return (String) source;
     }
     
@@ -40,7 +40,7 @@ public class ProbeReadEvent extends ProbeEvent {
     
     @XmlElement
     @Override
-    Date getTime() {
+    public Date getTime() {
         return time;
     }
 
@@ -57,6 +57,11 @@ public class ProbeReadEvent extends ProbeEvent {
         this.temperature = temperature;
     }
     
+    @Override
+    public void fire(ProbeEventListener listener) {
+        listener.probeRead(this);
+    }
+
     @Override
     public String toString() {
         return "Probe  "+source+" read at "+time+" : "+temperature+"°C";

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanager;
+package com.job.probeevent;
 
 import java.util.Date;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,23 +11,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
-public class ProbeDisconnectionEvent extends ProbeConnectionEvent {
+public class ProbeConnectionEvent extends ProbeEvent {
 
-    private ProbeDisconnectionEvent() {
+    private ProbeConnectionEvent() {
         this(NO_PROBE_ID);
     } 
     
-    public ProbeDisconnectionEvent(String probeId) {
+    public ProbeConnectionEvent(String probeId) {
         super(probeId);
-    }
-    
-    public ProbeDisconnectionEvent(String probeId, Date time) {
-        super(probeId, time);
     } 
     
+    public ProbeConnectionEvent(String probeId, Date time) {
+        super(probeId, time);
+    } 
+
     @XmlElement
     @Override
-    String getProbeId() {
+    public String getProbeId() {
         return (String) source;
     }
     
@@ -37,7 +37,7 @@ public class ProbeDisconnectionEvent extends ProbeConnectionEvent {
     
     @XmlElement
     @Override
-    Date getTime() {
+    public Date getTime() {
         return time;
     }
 
@@ -47,6 +47,11 @@ public class ProbeDisconnectionEvent extends ProbeConnectionEvent {
 
     @Override
     public String toString() {
-        return "Probe "+source+" diconnected at "+time;
+        return "Probe "+source+" connected at "+time;
+    }
+
+    @Override
+    public void fire(ProbeEventListener listener) {
+        listener.probeConnected(this);
     }
 }

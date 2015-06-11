@@ -5,6 +5,9 @@
  */
 package com.job.probemanager;
 
+import com.job.probeevent.ProbeEventXmlEncoder;
+import com.job.probeevent.ProbeConnectionEvent;
+import com.job.probeevent.ProbeEvent;
 import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,7 +44,7 @@ public class XmlEncoderTest {
     @Test
     public void testEncodeDecode() throws Exception {
         ProbeEvent pe = new ProbeConnectionEvent("testId", new Date());
-        XmlEncoder encoder = new XmlEncoder();
+        ProbeEventXmlEncoder encoder = new ProbeEventXmlEncoder();
         assertEquals(pe, encoder.decode(encoder.encode(pe)));
     }
 }

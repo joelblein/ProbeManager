@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanager;
+package com.job.probeevent;
 
 import java.util.Date;
 import java.util.EventObject;
@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author joel
  */
-public class ProbeEvent extends EventObject {
+public abstract class ProbeEvent extends EventObject {
     protected static String NO_PROBE_ID = "No probe Id";
     protected Date time;
 
@@ -31,14 +31,16 @@ public class ProbeEvent extends EventObject {
         this.time = time;
     }
     
-    String getProbeId() {
+    public String getProbeId() {
         return (String) source;
     }
     
-    Date getTime() {
+    public Date getTime() {
         return time;
     }
 
+    public abstract void fire(ProbeEventListener listener);
+    
     @Override
     public String toString() {
         return "Probe "+source+" event at "+time;

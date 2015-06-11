@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanager;
+package com.job.probeevent;
 
 /**
  *
  * @author joel
  */
 public class ProbeException extends Exception {
-    ProbeException(String message) {
+    public ProbeException(String message) {
         super(message);
     }
-    ProbeException(Exception e) {
+    public ProbeException(Exception e) {
         super(e);
     }
-    ProbeException(String message, Exception e) {
+    public ProbeException(String message, Exception e) {
         super(message, e);
     }
     

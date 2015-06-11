@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.job.probemanager;
+package com.job.probeevent;
 
 /**
  *
  * @author joel
  */
-public interface ProbeListener {
+public interface ProbeEventListener {
    public void probeConnected(ProbeConnectionEvent e);
    public void probeDisonnected(ProbeDisconnectionEvent e);
    public void probeRead(ProbeReadEvent e);
